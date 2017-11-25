@@ -176,6 +176,21 @@ def pm25():
             pass
     return content
 
+def ty():
+
+    src = 'http://www.cwb.gov.tw/V7/prevent/typhoon/Data/PTA_NEW/index.htm?dumm=Wed#'
+    url = urllib.request.urlopen(src)
+    soup = BeautifulSoup(url, 'html.parser')
+    data = soup.select('div.patch')
+    text = data[0].get_text().strip()
+    imgsoure = soup.select('div.download a')
+
+    imgurl = imgsoure[0].get('href')
+    imglink = 'http://www.cwb.gov.tw/V7/prevent/typhoon/Data/PTA_NEW/{}'.format(imgurl)
+
+    content = '{}\n{}'.format(text,imglink)
+
+    return content
 
 def photorace():
 
