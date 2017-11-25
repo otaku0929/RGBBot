@@ -313,8 +313,8 @@ def handle_message(event):
     if event.message.text=='查颱風':
         res = event.message.text
         content = ty()
-        line_bot_api.reply_message(
-            event.reply_token,
+        line_bot_api.push_message(
+            'Cd6ccb6c9e391a4cd613384154fec7330',
             TextSendMessage(text=content))
         return 0    
     if mlist[mlist.find('查天氣',0):3]=='查天氣':
