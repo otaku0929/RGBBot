@@ -332,9 +332,9 @@ def handle_message(event):
         return 0
     if event.message.text=='攝影比賽查詢':
         res = event.message.text
-        content = ty()
+        content = photorace()
         line_bot_api.push_message(
-            'Cd6ccb6c9e391a4cd613384154fec7330',
+            'Ud0414e339e9c242b19a2dd22dd1f6189',
             TextSendMessage(text=content))
         return 0    
     if mlist[mlist.find('查天氣',0):3]=='查天氣':
