@@ -26,8 +26,6 @@ config.read("config.ini")
 
 line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
 handler = WebhookHandler(config['line_bot']['Channel_Secret'])
-client_id = config['imgur_api']['Client_ID']
-client_secret = config['imgur_api']['Client_Secret']
 album_id = config['imgur_api']['Album_ID']
 API_Get_Image = config['other_api']['API_Get_Image']
 
@@ -58,31 +56,6 @@ def pattern_mega(text):
     for pattern in patterns:
         if re.search(pattern, text, re.IGNORECASE):
             return True
-
-
-def movie():
-    alist = []
-    for page in range(1,3):#collect movies from 5 page
-        page_url = 'http://tw.movies.yahoo.com/movie_intheaters.html?page={}'.format(page)
-        res = requests.get(page_url)
-        movie_list = ymovie_content(res)
-        for movie in movie_list:
-            alist.append(movie)        
-    
-    #select 3 mobvies from 5 page
-    random.shuffle(alist)
-    randommovie = alist[0:3]
-
-    #export movie information 
-    content = ""
-    for data in randommovie:
-        title = format(data.get("data-ga")[20:].strip("]"))
-        url = format(data.get("href"))
-        #img = data.select('img')[0]['src']
-        content += '院線電影{}\n{}\n\n'.format(title,url)
-
-    return content
-
 
 def rate(res):
 
