@@ -26,8 +26,6 @@ config.read("config.ini")
 
 line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
 handler = WebhookHandler(config['line_bot']['Channel_Secret'])
-album_id = config['imgur_api']['Album_ID']
-API_Get_Image = config['other_api']['API_Get_Image']
 
 @app.route("/callback", methods=['POST'])
 def callback():
