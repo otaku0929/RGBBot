@@ -190,6 +190,25 @@ def ty():
 
     return content
 
+def autophotorace():
+
+    url = 'http://www.uart.org.tw/uart/show/tourney/tourney106.html'
+    request = requests.get(url)
+    soup = BeautifulSoup(request.content,"html.parser")
+
+    plist = soup.select('tr tr')[3:]
+   
+    content = ""  
+    for i in range(len(plist)-1):
+        res = plist[i]
+        cdata = photoracedata(res)
+        _content = '{}\n'.format(cdata)
+        content += _content
+    
+    line_bot_api.push_message(
+        'Ud0414e339e9c242b19a2dd22dd1f6189',
+        TextSendMessage(text=content))
+  
 def photorace():
 
     url = 'http://www.uart.org.tw/uart/show/tourney/tourney106.html'
@@ -336,7 +355,10 @@ def handle_message(event):
         line_bot_api.push_message(
             'Ud0414e339e9c242b19a2dd22dd1f6189',
             TextSendMessage(text=content))
-        return 0    
+        return 0
+    if event.message.text=='autophoto'
+        print(autophotorace())
+        return 0
     if mlist[mlist.find('查天氣',0):3]=='查天氣':
         location = mlist[mlist.find('查天氣',0)+3:6].replace('台','臺')
         content = weather(location)
