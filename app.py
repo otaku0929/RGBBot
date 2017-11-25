@@ -330,7 +330,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-     if event.message.text=='攝影比賽查詢':
+    if event.message.text=='攝影比賽查詢':
         res = event.message.text
         content = ty()
         line_bot_api.push_message(
