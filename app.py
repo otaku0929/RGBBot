@@ -5,12 +5,10 @@ import configparser
 import urllib.request
 import pandas
 import gspread
-import twstock
-from oauth2client.service_account import ServiceAccountCredentials as SAC
+import schedule
 from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 from imgurpython import ImgurClient
-from selenium import webdriver
 
 from linebot import (
     LineBotApi, WebhookHandler
