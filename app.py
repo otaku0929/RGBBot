@@ -211,6 +211,7 @@ def fwords(resf):
         nt = words[words.find('n')+1:words.find('x')]
         xt = words[words.find('x')+1:]
         content = ratecount(res,nt,xt)
+        return content
     elif len(words) >=2:
         for data in wlist:
             if words[words.find(data,0):words.find(data,0)+len(data)] in wlist:
@@ -219,7 +220,6 @@ def fwords(resf):
                 content = talk_messages(messages_talk)
                 return content    
     
-
 def talk_messages(messages_talk):
 
     if messages_talk in [ "美金","港幣","英鎊","澳幣","加拿大幣","新加坡幣","瑞士法郎","日圓","日幣","南非幣","瑞典幣","紐元","泰幣","菲國比索","印尼幣","歐元","韓元","越南盾","馬來幣","人民幣"]:
