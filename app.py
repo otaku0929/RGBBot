@@ -356,7 +356,7 @@ def handle_message(event):
             'Ud0414e339e9c242b19a2dd22dd1f6189',
             TextSendMessage(text=content))
         return 0
-    if event.message.text=='autophoto'
+    if event.message.text=='autophoto':
         print(autophotorace())
         return 0
     if mlist[mlist.find('查天氣',0):3]=='查天氣':
