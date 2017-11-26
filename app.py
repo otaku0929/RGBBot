@@ -366,11 +366,6 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=content))
         return 0
-    if len(words)>=1:
-        resf = words
-        content = fwords(resf)
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-        return 0 
     if event.message.text in ['!help','功能表']:
         t1 = "1.查攝影比賽"
         t2 = "2.查天氣+縣市 例如: 查天氣台北市"
@@ -383,6 +378,12 @@ def handle_message(event):
         content = '{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(t1,t2,t3,t4,t5,t6,t7,t8)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0 
+    if len(words)>=1:
+        resf = words
+        content = fwords(resf)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+        return 0 
+
         
        
 
