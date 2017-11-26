@@ -388,8 +388,10 @@ def handle_message(event):
                      
 if __name__ == '__main__':
     app.run()
+    print(autophotorace())
     schedule.every(10).minutes.do(autophotorace)
     while True:
+        print('wating......')
         schedule.run_pending()
         time.sleep(1)
     
