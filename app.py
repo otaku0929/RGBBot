@@ -237,7 +237,7 @@ def photoracedata(res):
 def fwords(resf):
     words = resf
     wlist = (["美金","港幣","英鎊","澳幣","加拿大幣","新加坡幣","瑞士法郎","日圓","日幣","南非幣","瑞典幣","紐元","泰幣","菲國比索","印尼幣","歐元","韓元","越南盾","馬來幣","人民幣"])
-
+  
     if words.find('n')>=2:
         res = words[0:words.find('n')].replace('日幣','日圓')
         nt = words[words.find('n')+1:words.find('x')]
@@ -370,7 +370,21 @@ def handle_message(event):
         resf = words
         content = fwords(resf)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-        return 0    
+        return 0 
+    if event.message.text in ['!help','功能表']:
+        t1 = "1.查攝影比賽"
+        t2 = "2.查天氣+縣市 例如: 查天氣台北市"
+        t3 = "3.輸入幣名可以匯率 例如: 日幣 美金"
+        t4 = "4.查換匯 例如:日幣n1x10000 或 日幣n10000x1"
+        t5 = "5.天氣特報"
+        t6 = "6.查颱風"
+        t7 = "7.查空氣品質 會列出空氣品質差的地區"
+        t8 = "8.抽金句 隨機聖經金句"
+        content = '{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}'.format(t1,t2,t3,t4,t5,t6,t7,t8)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+        return 0 
+        
+       
 
        
 if __name__ == '__main__':
