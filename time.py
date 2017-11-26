@@ -94,8 +94,6 @@ def photoracedata(res):
 
                      
 if __name__ == '__main__':
-    print(autophotorace())
-    time()
     schedule.every(10).minutes.do(autophotorace)
     while True:
         print('wating......')
