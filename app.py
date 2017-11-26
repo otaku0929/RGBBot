@@ -384,10 +384,11 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0 
 
-        
-       
-
-       
+                     
 if __name__ == '__main__':
     app.run()
-
+    schedule.every(10).minutes.do(autophotorace)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+    
