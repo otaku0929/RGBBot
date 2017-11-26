@@ -62,7 +62,8 @@ def autophotorace():
         content += _content
     
     line_bot_api.push_message(
-        'Ud0414e339e9c242b19a2dd22dd1f6189',
+        #'Ud0414e339e9c242b19a2dd22dd1f6189',
+        'Cd6ccb6c9e391a4cd613384154fec7330',
         TextSendMessage(text=content))
   
 def photorace():
@@ -94,9 +95,8 @@ def photoracedata(res):
 
                      
 if __name__ == '__main__':
-    schedule.every(10).minutes.do(autophotorace)
+    schedule.every().monday.at("12:00").do(autophotorace)
     while True:
-        print('wating......')
         schedule.run_pending()
         time.sleep(1)
     
