@@ -360,6 +360,12 @@ def handle_message(event):
     if event.message.text=='autophoto':
         print(autophotorace())
         return 0
+    if event.message.text=='gettime':
+       content = time.time()
+       line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+       return 0
     if mlist[mlist.find('查天氣',0):3]=='查天氣':
         location = mlist[mlist.find('查天氣',0)+3:6].replace('台','臺')
         content = weather(location)
