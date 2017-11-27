@@ -361,7 +361,7 @@ def handle_message(event):
         print(autophotorace())
         return 0
     if event.message.text=='gettime':
-       content = time.time()
+       content = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
        line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
