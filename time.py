@@ -95,7 +95,7 @@ def photoracedata(res):
 
                      
 if __name__ == '__main__':
-    schedule.every().monday.at("12:00").do(autophotorace)
+    schedule.every().tuesday.at("04:00").do(autophotorace)
     while True:
         schedule.run_pending()
         time.sleep(1)
