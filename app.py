@@ -62,7 +62,7 @@ def handle_message(event):
     #line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
     if re.match('18啦',event.message.text):        
         content = _games.r18()
-        line_bot_api.replay_message(event.reply_token,TextSendMessage(text=content))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0
     
                      
