@@ -6,11 +6,15 @@ Created on Fri Jul 13 11:07:15 2018
 """
 
 import re
-import random
+#import random
 import configparser
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 from flask import Flask, request, abort
-from imgurpython import ImgurClient
+#from imgurpython import ImgurClient
+
+import function.game_zone
+_games = function.game_zone.game_zone()
+
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -54,10 +58,13 @@ def handle_message(event):
     #print("event.groupID:",event.source)
     #print("event.reply_token:", event.reply_token)
     #print("event.message.text:", event.message.text)
+    #content = event.message.text
+    #line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
+    if re.match('18啦',event.messages.text):        
+        content = _games.r18()
+        line_bot_api.replay_message(event.reply_token,TextSendMessage(text=content))
+        return 0
     
-    content = event.message.text
-    line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
-    return 0
                      
 if __name__ == '__main__':
     app.run()
