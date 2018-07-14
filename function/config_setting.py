@@ -38,11 +38,11 @@ class config_setting(object):
             print('insert')
             command = "insert into user_config (user_id, user_name, config) values('%s','%s','%s')" % (id,user_name,config)
             #print(config)
-            print(_sql.insert_config(id,user_name,config))
+            return(_sql.run(command))
         else:
             print('update')
             command = "update user_config set user_name = '%s',config = '%s' where user_id = '%s'" % (user_name,config,id)
-            print(_sql.run(command))
+            return(_sql.run(command))
             
         print(_sql.select_config(id))
         
