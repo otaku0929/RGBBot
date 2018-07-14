@@ -45,27 +45,30 @@ class photo_get(object):
         return image_message
     
     def imgur_girls(self):
-        client = ImgurClient(self.imgur_client_id, self.imgur_client_secret)
-        images = client.get_album_images('23p2B')
-        index = random.randint(0, len(images) - 1)        
-        url = images[index].link
-        image_message = ImageSendMessage(
-            original_content_url=url,
-            preview_image_url=url
-        )
-        return image_message
+        return self.get_imgur_photo('23p2B')
     
     def imgur_boys(self):
+        return self.get_imgur_photo('9eQni')       
+
+    def joke(self):
+        return self.get_imgur_photo('XpG2g')   
+    
+    def poker(self):
+        return self.get_imgur_photo('KQjab')
+    
+    def gods_talk(self):
+        return self.get_imgur_photo('6FM69')
+
+    def get_imgur_photo(self,album_id):
         client = ImgurClient(self.imgur_client_id, self.imgur_client_secret)
-        images = client.get_album_images('9eQni')
-        index = random.randint(0, len(images) - 1)        
+        images = client.get_album_images(album_id)
+        index = random.randint(0, len(images) - 1)
         url = images[index].link
         image_message = ImageSendMessage(
             original_content_url=url,
             preview_image_url=url
         )
-        return image_message  
-  
+        return image_message 
 
 if __name__ == '__main__':
     main()
