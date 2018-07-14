@@ -7,6 +7,7 @@ Created on Fri Jul 13 11:07:15 2018
 import re
 #import random
 import configparser
+import json
 #from bs4 import BeautifulSoup
 from flask import Flask, request, abort
 #from imgurpython import ImgurClient
@@ -71,13 +72,13 @@ def handle_message(event):
         content = event.message.text
         line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
         return 0
-    if event.messages_text == 'getconfig':
+    if event.message.text == 'getconfig':
         if event['source']['type'] == 'user':
             uid = event.source.user_id
             config = _sql.select_config(uid)[0]
             content = config[2]
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-            return 0
+        return 0
     if re.match('^#浮水印%(.+)%f(\d+)%([t|e]\d)%(red|green|blue|white|black|pink|yellow|gold|#......)%al(\d+)%(p\d)',event.message.text):
         if event['source']['type'] == 'user':
 #            uid = event['source']['userId']
