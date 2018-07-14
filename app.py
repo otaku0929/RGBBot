@@ -69,12 +69,12 @@ def handle_message(event):
     #content = event.message.text
     #line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
     #取得event
-    if event.message.text == 'getevent':
+    if event.message.text == '#getevent':
         content = event.message.text
         line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
         return 0
     #取得設定檔
-    if event.message.text=='getconfig':
+    if event.message.text=='#getconfig':
         uid = event.source.user_id
         profile = line_bot_api.get_profile(event.source.user_id)
         user_name = profile.display_name
@@ -148,7 +148,7 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0
     #設定功能啟用
-    if re.match('^#功能%(.+)=(on|off|開|關)',event.message.text):
+    if re.match('^#設定%(.+)=(on|off|開|關)',event.message.text):
         if event.source.type == 'user':
             uid = event.source.user_id
             profile = line_bot_api.get_profile(event.source.user_id)
