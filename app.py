@@ -168,16 +168,16 @@ def handle_message(event):
         return 0
     ####抽圖區
     if event.message.text == '抽':
-        content = _photos.random()
-        line_bot_api.reply_message(event.reply_token, content)
+        image_message = _photos.random()
+        line_bot_api.reply_message(event.reply_token, image_message)
         return 0
     if event.message.text in ['抽正妹','抽美女']:
-        content = _photos.beauty_girls()
-        line_bot_api.reply_message(event.reply_token, content)
+        image_message = _photos.beauty_girls()
+        line_bot_api.reply_message(event.reply_token, image_message)
         return 0
     if event.message.text in ['抽帥哥','抽鮮肉','抽猛男']:
-        content = _photos.imgur_boys()
-        line_bot_api.reply_message(event.reply_token, content)
+        image_message = _photos.imgur_boys()
+        line_bot_api.reply_message(event.reply_token, image_message)
         return 0            
     ####遊戲區
     #18啦遊戲
