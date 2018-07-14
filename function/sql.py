@@ -60,7 +60,7 @@ class Sql(object):
 #
     def run (self,command):
         
-        print(command)
+        #print(command)
         conn =psycopg2.connect(database=self.database, user=self.user, password=self.password, host=self.host, port=self.port)
          
         cur=conn.cursor()
@@ -71,7 +71,7 @@ class Sql(object):
         conn.close()
  
         return 'commit'
-
+   
    
     def select_config(self,id):
         

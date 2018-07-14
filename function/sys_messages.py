@@ -15,6 +15,12 @@ class sys_messages(object):
     def __init__ (self):
         self.obj_name = 'sys_messages'
     
+    def m_function_off(self,function_name):
+        return '此功能已被停用若要開啟請輸了：\n #功能%{}=on'.format(function_name)
+        
+    def m_noconfig(self,user_name):
+        return '沒有 %s 的設定檔，請先輸入:\n #create_config \n建立設定檔' % (user_name)
+    
     def m_addmark(self):
         return '此功能不能在群組使用\n\n\
 請先設定浮水印輸出格式，方式如下:\n\n\
