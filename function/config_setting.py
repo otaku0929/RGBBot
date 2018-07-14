@@ -57,7 +57,7 @@ class config_setting(object):
         #print(_sql.select_config(id))
         
     def function_config(self,id,user_name,message):
-        match = re.match('^#功能%(.+)=(on|off|開|關)',message)
+        match = re.match('^#設定%(.+)=(on|off|開|關)',message)
         rep = {'開':'on','關':'off'}
         function_name = match.group(1)
         option = reduce(lambda a, kv: a.replace(*kv), rep.items(), match.group(2))      
