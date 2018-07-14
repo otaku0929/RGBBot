@@ -112,7 +112,7 @@ def handle_message(event):
         return 0
     #刪除設定檔
     if re.match('^##del_config=(.+)',event.message.text):
-        if event['source']['type'] == 'user': 
+        if event.source.type == 'user':
             uid = re.match('^##del_config=(.+)',event.message.text).group(1)
             if len(_sql.select_config(uid)) == 0:
                 content = "no user_id"
@@ -149,7 +149,7 @@ def handle_message(event):
         return 0
     #設定功能啟用
     if re.match('^#功能%(.+)=(on|off|開|關)',event.message.text):
-        if event['source']['type'] == 'user':
+        if event.source.type == 'user':
             uid = event.source.user_id
             profile = line_bot_api.get_profile(event.source.user_id)
             user_name = profile.display_name
@@ -168,7 +168,7 @@ def handle_message(event):
 #        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
 #        return 0
     if re.match('18啦',event.message.text):
-        if event['source']['type'] == 'user':
+        if event.source.type == 'user':
             uid = event.source.user_id
 #            profile = line_bot_api.get_profile(event.source.user_id)
 #            user_name = profile.display_name
