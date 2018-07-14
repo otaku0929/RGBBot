@@ -28,10 +28,16 @@ class photo_get(object):
         self.API_Get_Image = 'https://otakujpbweb.herokuapp.com/api/image/random/'
         
     def random(self):
-        return random.choice([self.imgur_boys,self.beauty_girls,self.imgur_boys,self.beauty_girls,self.imgur_boys,self.beauty_girls,self.beauty_girls,self.imgur_girls])
+        b=self.imgur_boys
+        g=self.beauty_girls
+        gs=self.imgur_girls
+        content = random.choice([b,g,b,g,b,g,g,gs])
+        return content()
+        
                  
     def beauty_girls(self):
-        url = requests.get(self.API_Get_Image)
+        images =  requests.get(self.API_Get_Image)
+        url = images.json().get('Url')
         image_message = ImageSendMessage(
             original_content_url=url,
             preview_image_url=url
@@ -59,8 +65,7 @@ class photo_get(object):
             preview_image_url=url
         )
         return image_message  
-    
-    
+  
 
 if __name__ == '__main__':
     main()
