@@ -169,6 +169,7 @@ def handle_message(event):
     ####抽圖區
     if event.message.text == '抽':
         image_message = _photos.random()
+        print(image_message)
         line_bot_api.reply_message(event.reply_token, image_message)
         return 0
     if event.message.text in ['抽正妹','抽美女']:
