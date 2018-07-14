@@ -58,7 +58,13 @@ class photo_get(object):
     
     def gods_talk(self):
         return self.get_imgur_photo('6FM69')
-
+    
+    def single(self):
+        return self.get_imgur_photo('Sy6Gm')
+    
+    def food(self):
+        return self.get_imgur_photo('9rYK8')
+    
     def get_imgur_photo(self,album_id):
         client = ImgurClient(self.imgur_client_id, self.imgur_client_secret)
         images = client.get_album_images(album_id)
