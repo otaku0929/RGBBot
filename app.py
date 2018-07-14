@@ -71,7 +71,7 @@ def handle_message(event):
     #print("event.message.text:", event.message.text)
     #content = event.message.text
     #line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
-    ####功能區
+    ####功能區####
     #取得event
     if event.message.text == '#getevent':
         content = event.message.text
@@ -166,7 +166,7 @@ def handle_message(event):
                 #print(content)
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0
-    ####抽圖區
+    ####抽圖區####
     if event.message.text == '抽':
         image_message = _photos.random()
         print(image_message)
@@ -179,8 +179,32 @@ def handle_message(event):
     if event.message.text in ['抽帥哥','抽鮮肉','抽猛男']:
         image_message = _photos.imgur_boys()
         line_bot_api.reply_message(event.reply_token, image_message)
-        return 0            
-    ####遊戲區
+        return 0
+    if event.message.text in ["說笑話","講笑話","小星星說笑話","小星星講笑話"]:
+        image_message = _photos.joke()
+        line_bot_api.reply_message(event.reply_token, image_message)
+        return 0
+    if event.message.text in ["比大小"]:
+        image_message = _photos.poker()
+        line_bot_api.reply_message(event.reply_token, image_message)
+        return 0 
+    if event.message.text == '抽金句':
+        image_message = _photos.gods_talk()
+        line_bot_api.reply_message(event.reply_token, image_message)
+        return 0 
+    if event.message.text in ["現在吃什麼"]:
+        image_message = _photos.food()
+        line_bot_api.reply_message(event.reply_token, image_message)
+        return 0
+    if event.message.text == '抽單身':
+        image_message = _photos.single()
+        line_bot_api.reply_message(event.reply_token, image_message)
+        return 0
+    ####hsing####
+    
+    
+    
+    ####遊戲區####
     #18啦遊戲
 #    if re.match('18啦',event.message.text):        
 #        content = _games.r18()
