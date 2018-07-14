@@ -24,6 +24,9 @@ _config = function.config_setting.config_setting()
 import function.sys_messages
 _sys_mg = function.sys_messages.sys_messages()
 
+import function.photo_get
+_photos = function.photo_get.photo_get()
+
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -68,6 +71,7 @@ def handle_message(event):
     #print("event.message.text:", event.message.text)
     #content = event.message.text
     #line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
+    ####功能區
     #取得event
     if event.message.text == '#getevent':
         content = event.message.text
@@ -162,12 +166,26 @@ def handle_message(event):
                 #print(content)
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0
+    ####抽圖區
+    if event.message.text == '抽':
+        content = _photos.random()
+        line_bot_api.reply_message(event.reply_token, content)
+        return 0
+    if event.message.text in ['抽正妹','抽美女']:
+        content = _photos.beauty_girls()
+        line_bot_api.reply_message(event.reply_token, content)
+        return 0
+    if event.message.text in ['抽帥哥','抽鮮肉','抽猛男']:
+        content = _photos.imgur_boys()
+        line_bot_api.reply_message(event.reply_token, content)
+        return 0            
+    ####遊戲區
     #18啦遊戲
 #    if re.match('18啦',event.message.text):        
 #        content = _games.r18()
 #        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
 #        return 0
-    if re.match('18啦',event.message.text):
+    if re.match('^18啦',event.message.text):
         if event.source.type == 'user':
             uid = event.source.user_id
 #            profile = line_bot_api.get_profile(event.source.user_id)
