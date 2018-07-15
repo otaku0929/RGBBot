@@ -49,12 +49,11 @@ _weather = function.weatherparser.WeatherParser()
 import function.star_talk
 _star_talk = function.star_talk.start_talk()
 
-from linebot import (
-     WebhookHandler
-)
+import function.line_function
+_lineapi = function.line_function.linbotapi()
 
-from linebot.api import (
-    LineBotApi
+from linebot import (
+     LineBotApi, WebhookHandler
 )
 
 from linebot.exceptions import (
@@ -102,11 +101,13 @@ def handle_message(event):
     #取得event
     if event.source.type == 'group':
         gid = event.source.group_id
-        print(gid)
+        #print(gid)
         uid = event.source.user_id
-        print(uid)
-        profile = line_bot_api.get_group_member_profile(gid,uid) 
-        user_name = profile.display_name
+        #print(uid)
+        #profile = line_bot_api.get_group_member_profile(gid,uid)
+        profile = _lineapi.get_group_member_profile(gid,uid)
+        #print(profile)
+        user_name = profile['displayName']
     if event.source.type == 'user':
         uid = event.source.user_id
         profile = line_bot_api.get_profile(event.source.user_id)
