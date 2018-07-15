@@ -46,10 +46,8 @@ _life = function.life_zone.life_zone()
 import function.weatherparser
 _weather = function.weatherparser.WeatherParser()
 
-#import function.star_talk
-#_star_talk = function.star_talk.start_talk()
-
-from function.star_talk import star_talk
+import function.star_talk
+_star_talk = function.star_talk.start_talk()
 
 from linebot import (
      WebhookHandler
