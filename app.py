@@ -465,7 +465,7 @@ def handle_message(event):
 #        return 0  
     words_list = "小星星|幹|操|fuck|三小|靠北|爆料|三字經|壞掉了|早安|早啊|晚安|睡囉|哈哈哈哈哈|(才|你|小星星)尿床|尿好了|有尿了"
     if re.search(words_list,event.message.text):
-        content = star_talk.star_talk(event.message.text,user_name)
+        content = _star_talk.star_talk(event.message.text,user_name)
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0 
                      
