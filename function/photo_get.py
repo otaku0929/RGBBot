@@ -63,7 +63,7 @@ class photo_get(object):
         return self.get_imgur_photo('Sy6Gm')
     
     def food(self):
-        return self.get_imgur_photo('9rYK8')
+        return self.get_imgur_photo('9rYK8')    
     
     def get_imgur_photo(self,album_id):
         client = ImgurClient(self.imgur_client_id, self.imgur_client_secret)
