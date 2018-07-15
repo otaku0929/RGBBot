@@ -97,7 +97,9 @@ def handle_message(event):
     #取得event
     if event.source.type == 'group':
         gid = event.source.group_id
+        print(gid)
         uid = event.source.user_id
+        print(uid)
         profile = line_bot_api.get_group_member_profile(gid,uid) 
         user_name = profile.display_name
     if event.source.type == 'user':
