@@ -81,7 +81,7 @@ def handle_message(event):
     if event.message.text == '#getinfo':
         if event.source.type == 'group':
             gid = event.source.group_id
-            uid = event.event.source.user_id
+            uid = event.source.user_id
             profile = line_bot_api.get_group_member_profile(gid,uid)
             content = str(profile)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
@@ -130,16 +130,15 @@ def handle_message(event):
         return 0
     #刪除設定檔
     if re.match('^##del_config=(.+)',event.message.text):
-        if event.source.type == 'user':
-            uid = re.match('^##del_config=(.+)',event.message.text).group(1)
-            if len(_sql.select_config(uid)) == 0:
-                content = "no user_id"
-                #print (content)
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-            else:
-                content = _config.delete_config(uid)
-                #print(content)
-                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+        id = re.match('^##del_config=(.+)',event.message.text).group(1)
+        if len(_sql.select_config(id)) == 0:
+            content = "%s 設定檔不存在" % id 
+            #print (content)
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+        else:
+            content = _config.delete_config(uid)
+            #print(content)
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0
     #浮水印設定
     if re.match('^#浮水印%(.+)%f(\d+)%([t|e]\d)%(red|green|blue|white|black|pink|yellow|gold|#......)%al(\d+)%(p\d)',event.message.text):
