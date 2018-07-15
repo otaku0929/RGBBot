@@ -78,6 +78,19 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
         return 0
     #取得設定檔
+    if event.messages.text == '#getinfo':
+        if event.source.type == 'group':
+            gid = event.source.group_id
+            profile = line_bot_api.get_group_member_profile(gid)
+            content = profile
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+            return 0
+        if event.source.type == 'user':
+            uid = event.source.user_id
+            profile = line_bot_api.get_profile(event.source.user_id)
+            content = profile
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+            return 0       
     if event.message.text=='#getconfig':
         uid = event.source.user_id
         profile = line_bot_api.get_profile(event.source.user_id)
