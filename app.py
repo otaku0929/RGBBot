@@ -81,7 +81,8 @@ def handle_message(event):
     if event.message.text == '#getinfo':
         if event.source.type == 'group':
             gid = event.source.group_id
-            profile = line_bot_api.get_group_member_profile(gid)
+            uid = event.event.source.user_id
+            profile = line_bot_api.get_group_member_profile(gid,uid)
             content = str(profile)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
             return 0
