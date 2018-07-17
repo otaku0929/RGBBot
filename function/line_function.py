@@ -13,24 +13,27 @@ Created on Sun Jul 15 22:32:32 2018
 
 import requests
 import json
+import configparser
 
 
 
 def main():
-    api = linbotapi()
-    gid = 'C486996bc0cf57372409c1dc6d7a4f6f3'
-    uid = 'Ud0414e339e9c242b19a2dd22dd1f6189'
-    print(api.get_group_member_profile(gid,uid))
+    print('ok')
     
 class linbotapi(object):
     
+    
     DEFAULT_API_ENDPOINT = 'https://api.line.me'
+    
+    config = configparser.ConfigParser()
+    config.read("config.ini")
+    channel_access_token = config['line_bot']['Channel_Access_Token']
      
-    def __init__(self, endpoint=DEFAULT_API_ENDPOINT,
+    def __init__(self, endpoint=DEFAULT_API_ENDPOINT, token=channel_access_token,
                  timeout=5):
         
         self.__version__ = '1.7.1'
-        self.channel_access_token = 'WlEMGtaG4o/2msjFkueoT6daMcPzCD5MEPQer081zB4mqoUcSvHrBAIcdQh9yG5L3en6HKj5PNRaxP+wLpoGQE08A44fDgWrY0LOrCHvq08Qgc/A/T7FWXZoLV81aBD8m7coT7YWnXcI7HUFtDRIbgdB04t89/1O/w1cDnyilFU='
+        self.channel_access_token = token
         self.endpoint = endpoint
         self.headers = {
             'Authorization': 'Bearer ' + self.channel_access_token,

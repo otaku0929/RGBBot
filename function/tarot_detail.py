@@ -1,28 +1,27 @@
 import random
 
-from linebot.models import *
-#from linebot.models import (
-#        MessageEvent, 
-#        TextMessage, 
-#        TextSendMessage, 
-#        ImageSendMessage, 
-#        TemplateSendMessage,
-#        CarouselTemplate,
-#        CarouselColumn
-#        )
+from linebot.models import (
+        MessageEvent, 
+        TextMessage, 
+        TextSendMessage, 
+        ImageSendMessage, 
+        TemplateSendMessage,
+        CarouselTemplate,
+        CarouselColumn
+        )
 
-#from linebot.models.actions import (  # noqa
-#    Action,
-#    PostbackAction,
-#    MessageAction,
-#    URIAction,
-#    DatetimePickerAction,
-#    Action as TemplateAction,  # backward compatibility
-#    PostbackAction as PostbackTemplateAction,  # backward compatibility
-#    MessageAction as MessageTemplateAction,  # backward compatibility
-#    URIAction as URITemplateAction,  # backward compatibility
-#    DatetimePickerAction as DatetimePickerTemplateAction,  # backward compatibility
-#)
+from linebot.models.actions import (  # noqa
+    Action,
+    PostbackAction,
+    MessageAction,
+    URIAction,
+    DatetimePickerAction,
+    Action as TemplateAction,  # backward compatibility
+    PostbackAction as PostbackTemplateAction,  # backward compatibility
+    MessageAction as MessageTemplateAction,  # backward compatibility
+    URIAction as URITemplateAction,  # backward compatibility
+    DatetimePickerAction as DatetimePickerTemplateAction,  # backward compatibility
+)
 
 def main():
     return('OK')

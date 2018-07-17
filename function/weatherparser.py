@@ -4,22 +4,26 @@ Created on Sat Jul  7 23:09:59 2018
 
 @author: 宇星
 """
-
+#import os
 import requests
 import json
 import re
 import math
 from bs4 import BeautifulSoup
-#from get_wp_state import get_state
+import urllib.request
+
 import function.sql
 _sql = function.sql.Sql()
 
 import function.g_function
 _function = function.g_function.function()
 
+import function.photo_zone
+_photos = function.photo_zone.photo_zone()
+
 def main():
     wp = WeatherParser()
-    print(wp.get_state_json())
+    print(wp.AQI())
     #print(wp.getReportWithAPI('龜山'))
 #    messages = '查天氣=基隆'
 #    match = re.match('(.+)*天氣=(.+)',messages)
@@ -200,15 +204,15 @@ class WeatherParser(object):
     
         weather_elements = weather_api['records']['location'][0]['weatherElement']
         
-        sTs = (weather_elements[0]['time'])[0].get('startTime')[5:16]
-        eTs = (weather_elements[0]['time'])[0].get('endTime')[5:16]
+        #sTs = (weather_elements[0]['time'])[0].get('startTime')[5:16]
+        #eTs = (weather_elements[0]['time'])[0].get('endTime')[5:16]
         Wxs = (weather_elements[0]['time'])[0]['parameter'].get('parameterName')
         PoPs = (weather_elements[1]['time'])[0]['parameter'].get('parameterName')
         MinTs = (weather_elements[2]['time'])[0]['parameter'].get('parameterName')
         MaxTs = (weather_elements[4]['time'])[0]['parameter'].get('parameterName')
     
-        sTe = (weather_elements[0]['time'])[1].get('startTime')[5:16]
-        eTe = (weather_elements[0]['time'])[1].get('endTime')[5:16]
+        #sTe = (weather_elements[0]['time'])[1].get('startTime')[5:16]
+        #eTe = (weather_elements[0]['time'])[1].get('endTime')[5:16]
         Wxe = (weather_elements[0]['time'])[1]['parameter'].get('parameterName')
         PoPe = (weather_elements[1]['time'])[1]['parameter'].get('parameterName')
         MinTe = (weather_elements[2]['time'])[1]['parameter'].get('parameterName')
@@ -250,5 +254,39 @@ class WeatherParser(object):
        
         return _content3
 
+    def ty(self):
+    
+        src = 'http://www.cwb.gov.tw/V7/prevent/typhoon/Data/PTA_NEW/index.htm?dumm=Wed#'
+        url = urllib.request.urlopen(src)
+        soup = BeautifulSoup(url, 'html.parser')
+        data = soup.select('div.patch')
+        text = data[0].get_text().strip()
+        #imgsoure = soup.select('div.download a')
+    
+        #imgurl = imgsoure[0].get('href')
+        #imglink = 'http://www.cwb.gov.tw/V7/prevent/typhoon/Data/PTA_NEW/{}'.format(imgurl)
+    
+        content = '台灣附近颱風動態：\n{}'.format(text)
+    
+        return content
+
+    def AQI(self):
+        path = 'jpg/'
+        #path = '../jpg/'
+        aqi_path = '%sapi_map_png'%path
+        aqi_detail_path = '%saqi.png'%path
+        merge_path = '%smerge_aqi.png'%path
+        aqi_url = 'https://taqm.epa.gov.tw/taqm/Chart/AqiMap/map2.aspx?lang=tw'
+        with open(aqi_path, 'wb') as handle:
+            aqi_pic = requests.get(aqi_url, stream=True)
+            handle.write(aqi_pic.content)
+        _function.mergejpg_h(aqi_path,aqi_detail_path,merge_path)
+#        client = ImgurClient(imgur_client_id, imgur_client_secret, imgur_client_access_token, imgur_client_refresh_token)
+#        conf = {"album":'sJMh0RE'}
+#        res = client.upload_from_path('/app/jpg/merge_aqi.png',config=conf,anon=False)
+        res = _photos.upload_imgur('sJMh0RE',merge_path)
+        
+        return res
+    
 if __name__ == '__main__':
     main()
