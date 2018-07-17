@@ -33,7 +33,7 @@ import function.tarot_detail
 _tarot = function.tarot_detail.tarot()
 
 import function.financial
-_fin = function.financial.financial
+_fin = function.financial.financial()
 
 import function.hsing
 _hsing = function.hsing.hsing()
@@ -514,7 +514,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
             #gs_write('B22')
             return 0
-        else:
+        else:           
             rate_content = _fin.rate(re.search(rate_list,event.message.text).group(0)) 
             content = '臺灣銀行牌告匯率\n查詢時間:{}\n{} 1:{}\n\n走勢圖:{}'.format(rate_content[0],rate_content[1],rate_content[2],rate_content[4])
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
