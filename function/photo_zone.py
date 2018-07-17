@@ -116,8 +116,8 @@ class photo_zone(object):
         config_json = _sql.select(select_command)[0][2]
         config = json.loads(config_json)      
                 
-        if config['watermark'] == 'none':
-            return config['watermark']
+        if config['watermark'] == {}:
+            return 'none'
         else:                                   
             path = 'jpg/'
             #path = '../jpg/'
