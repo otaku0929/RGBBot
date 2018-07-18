@@ -112,10 +112,16 @@ class photo_zone(object):
 
     def add_watermark(self,id,message_content):
         
-        select_command = "select * from user_config where user_id = '%s'"% id
-        config_json = _sql.select(select_command)[0][2]
-        config = json.loads(config_json)      
-                
+        user_config = _sql.select_config(id)
+        
+        if user_config ==[]:
+            return 'none'
+        else:
+           config_json = _sql.select(user_config)[0][2]
+           config = json.loads(config_json)   
+        
+   
+      
         if config['watermark'] == {}:
             return 'none'
         else:                                   
