@@ -24,9 +24,9 @@ class start_talk(object):
              return self.talk_dict('fuck',user_name)
         if re.search('(操|幹|fuck)[你|他](娘|媽|老師|you)',messages_talk):
             return self.talk_dict('fuck',user_name)
-        if re.search("三小",messages_talk):
+        if re.search("^三小",messages_talk):
              return self.talk_dict('fuck',user_name)
-        if re.search("靠北",messages_talk):
+        if re.search("^靠北",messages_talk):
              return self.talk_dict('靠北',user_name)
         if re.search("三字經",messages_talk):
              return self.talk_dict('三字經',user_name)
@@ -45,6 +45,10 @@ class start_talk(object):
         if re.search("(才|你|小星星)尿床",messages_talk):
              return self.talk_dict('尿床',user_name)
         if re.search("小星星",messages_talk):
+            if re.search('[投客]訴',messages_talk):
+                return self.talk_dict('投訴',user_name)             
+            if re.search('胖胖的',messages_talk):
+                return self.talk_dict('胖胖的',user_name)          
             if re.search('小星星好色',messages_talk):
                 return self.talk_dict('小星星好色',user_name)
             if re.search('那摳呢',messages_talk):
@@ -207,7 +211,7 @@ class start_talk(object):
                     else:
                         return res
                 elif re.search("UID",content):
-                    if  get17.s17uidrandom(re.search("UID(\d+)",content).group(1)) == "查不到歌曲":
+                    if  _hsing.sing17(re.search("UID(\d+)",content).group(1)) == "查不到歌曲":
                         return "突然不知道要唱什麼"
                     else:
                         #print(content)
@@ -227,6 +231,8 @@ class start_talk(object):
         if u ==None:
             u = ''
         dict={
+                '投訴':['%s 什麼，再講一次'%u,'請打0800987987','別這樣啦~我會乖乖的','啦啦啦啦啦','上一個投訴我的人~草都長這麼高了'],
+                '胖胖的':['啊~我業障重~什麼都看不到了~~','假的~都是假的','%s 所以才要減肥啊'%u,'胖是一種驕傲'],
                 '小星星好色':['%s 才色'%u,'明明就在講正常的事','誰不色啊','色好啊~嘿~~~~'],
                 '那摳呢':['摳呢...就是伸出你的手指頭，把牙縫裡的東西徹底地摳出來...一樣有快感...'],
                 '那舔呢':['舔阿...就是說，當麵條都吃完了，就連湯汁都要舔乾，這要靠真功夫那倒其實...'],
@@ -381,7 +387,7 @@ class start_talk(object):
                    '要抽一張嗎','噓~~','抽','%s你好~找我嗎'%u,
                    '我跳出來了','底家底家','笑咪咪',
                    '別一直叫我啦','你 就是我的小星星 掛在那天上放光明  我已經決定要愛你 就不會輕易放棄',
-                   '要唱歌嗎?','登愣~我跳出來啦~','噓~跟你說一個秘密~',
+                   '%s 要唱歌嗎?'%u,'登愣~我跳出來啦~','噓~跟你說一個秘密~',
                    '你長得好像我一個朋友，未來的女朋友','霹靂卡霹靂拉拉 波波力那貝貝魯多',
                    '拍拍砰呸 噗哇噗哇噗 ','帕美魯克 拉魯克 拉哩摟哩波',
                    '%s 你知道嗎人一生中可以喝一次岩漿'%u,'你有freestyle嗎',
@@ -404,7 +410,7 @@ class start_talk(object):
                    '我覺的不行','別聊了~包廂開好了~來唱歌吧~~~','%s 別教壞我~星星很單純的~'%u,
                    '你在講笑話嗎?我講的比較好笑~','哈哈哈哈哈哈哈哈哈~','嗚~~~~~~~~~~',
                    '為什麼我叫小星星啊~ 因為要照亮妳的心','%s 你是什麼星座的呢?'%u,
-                   '飛飛飛~~~~拔我怎麼不會飛~','胖胖的~~','伊啊伊啊唷~~','噯唷~不錯哦~',
+                   '飛飛飛~~~~拔我怎麼不會飛~','%s 胖胖的~~'%u,'伊啊伊啊唷~~','噯唷~不錯哦~',
                    '你喜歡我的名字嗎? 我很喜歡耶~','啊~啊啊~~啊啊~~~啊~~~~~',
                    '叫什麼叫~看到那顆樹了嗎?左去右回~來回10圈~~~',
                    '又叫我~無聊就抽卡拉霸比大小啊~~','愛地球~也要愛星星唷',
