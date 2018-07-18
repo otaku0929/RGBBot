@@ -106,10 +106,10 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    print("event",event)
+    #print("event",event)
     #print("event.groupID:",event.source)
     #print("event.reply_token:", event.reply_token)
-    print("event.message.text:", event.message.text)
+    #print("event.message.text:", event.message.text)
     #content = event.message.text
     #line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
     ####功能區####
@@ -120,28 +120,42 @@ def handle_message(event):
         uid = event.source.user_id
         #print(uid)
         #profile = line_bot_api.get_group_member_profile(gid,uid)
-        profile = _lineapi.get_group_member_profile(gid,uid)
+        #profile = _lineapi.get_group_member_profile(gid,uid)
         #print(profile)
-        user_name = profile['displayName']
+        #user_name = profile['displayName']
+        profile = line_bot_api.get_profile(uid)
+        user_name = profile.display_name
+    if event.source.type == 'room':
+        rid = event.source.room_id
+        uid = event.source.user_id
+        profile = line_bot_api.get_profile(uid)
+        user_name = profile.display_name
     if event.source.type == 'user':
         uid = event.source.user_id
         profile = line_bot_api.get_profile(event.source.user_id)
         user_name = profile.display_name
         
+    print(event.source.type, user_name, "event.message.text:", event.message.text)
+    #adminconfig_list
+    if event.message.text == '#adminconfig':
+        content = _sys_mg.m_admin_function()
+        line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
+        return 0
+    #getevent        
     if event.message.text == '#getevent':
         content = event.message.text
         line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
         return 0
+    #create_db
+    if event.message.text == '##createdb':
+        content = _sql.temp_create_table
+        line_bot_api.reply_message(event.reply_token,[TextSendMessage(text=str(event)),TextSendMessage(text=content)])
+        return 0       
     #取得設定檔
     if event.message.text == '#getinfo':
-        if event.source.type == 'group':          
-            content = str(profile)
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-            return 0
-        if event.source.type == 'user':
-            content = str(profile)
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-            return 0       
+        content = '%s %s'%(uid, user_name)
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+        return 0       
     if event.message.text=='#getconfig':
         if event.source.type == 'user':
             if _sql.select_config(uid) == []:
@@ -167,6 +181,18 @@ def handle_message(event):
                 json_data = json.loads(config_list[2])
                 content = str(json_data)
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+            return 0
+        if event.source.type == 'room':
+            if _sql.select_config(uid) == []:
+                content = _sys_mg.m_noconfig('room')
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+            else:
+                config = _sql.select_config(uid)
+                config_list = config[0]
+                json_data = json.loads(config_list[2])
+                content = str(json_data)
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+            return 0
      #user查設定檔
     if event.message.text=='#查小星星設定':
         if event.source.type == 'user':
@@ -190,7 +216,18 @@ def handle_message(event):
                 json_data = json.loads(config_list[2])
                 content = _config.config_list(json_data['function_option'])
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-                return 0
+            return 0
+        if event.source.type == 'room':
+            if _sql.select_config(rid) == []:
+                content = _sys_mg.m_noconfig('room')
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+            else:
+                config = _sql.select_config(rid)
+                config_list = config[0]
+                json_data = json.loads(config_list[2])
+                content = _config.config_list(json_data['function_option'])
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+            return 0
     #建立空的設定檔
     if event.message.text == '#create_config':
         if event.source.type == 'user':
@@ -205,13 +242,20 @@ def handle_message(event):
                 content = _config.create_config(gid,'group')
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
             else:
-                content = "%s 設定檔已存在" %user_name
+                content = "%s 設定檔已存在" %'group'
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+        if event.source.type == 'room':
+            if _sql.select_config(rid) == []:
+                content = _config.create_config(rid,'room')
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+            else:
+                content = "%s 設定檔已存在" %'room'
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         return 0
     #刪除設定檔
     if re.match('^##del_config=(.+)',event.message.text):
         id = re.match('^##del_config=(.+)',event.message.text).group(1)
-        print(id)
+        #print(id)
         if _sql.select_config(id) == []:
             content = "%s 設定檔不存在" % id 
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
@@ -247,8 +291,8 @@ def handle_message(event):
                 content = _config.function_config(uid,user_name,event.message.text)
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
         if event.source.type == 'group':
-            if _sql.select_config(uid) == []:
-                content = _sys_mg.m_noconfig(user_name)
+            if _sql.select_config(gid) == []:
+                content = _sys_mg.m_noconfig('group')
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
             else:
                 content = _config.function_config(gid,'group',event.message.text)
@@ -279,7 +323,15 @@ def handle_message(event):
     if re.match('^#adminhelp',event.message.text):
         content = _sys_mg.m_admin_function()
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-        return 0       
+        return 0
+#    if re.match('^#getimage=(.+)',event.message.text):
+#        message_id = re.match('^#getimage=(.+)',event.message.text).group(1)
+#        message_content = line_bot_api.get_message_content(message_id)
+#        for chunk in message_content.iter_content():
+#            content = str(chunk)
+#        #content = str(message_content.iter_content())
+#        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+#        return 0               
     ####抽圖區####
     if event.message.text == '抽':
         image_message = _photos.random()
@@ -563,15 +615,18 @@ def handle_message(event):
                 config_list = config[0]
                 json_data = json.loads(config_list[2])
                 if key in json_data['function_option']:
-                    if json_data['function_option'][key] == 'on':
+                    if json_data['function_option'][key] == 'off':
+                        if re.search('小星星(怎麼|為什麼)?不(會)?[回講說理][話我]',event.message.text):
+                            content = random.choice(['%s 因為大家覺得我太吵，所以關掉了'%user_name,'%s 檢查一下設定吧'%user_name])
+                            line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+                        return 0
+                    else:
                         content = _star_talk.star_talk(event.message.text,user_name)
                         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-                    return 0
                 else:
-                    if re.search('小星星(怎麼|為什麼)不(會)?[回講說]話了',event.message.text):
-                        content = random.choice(['%s 因為大家覺得我太吵，所以關掉了'%user_name,'%s 檢查一下設定吧'%user_name])
-                        line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
-                    return 0
+                    content = _star_talk.star_talk(event.message.text,user_name)    
+                    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
+                    return 0 
             else:
                 content = _star_talk.star_talk(event.message.text,user_name)    
                 line_bot_api.reply_message(event.reply_token,TextSendMessage(text=content))
@@ -584,21 +639,24 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image_message(event):
     
-    print("event",event)
+    #print("event",event)
     
     if event.source.type == 'group':
         gid = event.source.group_id
-        #print(gid)
         uid = event.source.user_id
-        #print(uid)
-        #profile = line_bot_api.get_group_member_profile(gid,uid)
-        profile = _lineapi.get_group_member_profile(gid,uid)
-        #print(profile)
-        user_name = profile['displayName']
+        profile = line_bot_api.get_profile(event.source.user_id)
+        user_name = profile.display_name
+    if event.source.type == 'room':
+        rid = event.source.room_id
+        uid = event.source.user_id
+        profile = line_bot_api.get_profile(uid)
+        user_name = profile.display_name
     if event.source.type == 'user':
         uid = event.source.user_id
         profile = line_bot_api.get_profile(event.source.user_id)
-        user_name = profile.display_name                
+        user_name = profile.display_name
+
+    print(event.source.type, user_name, "event.message.image:", event)             
      
     if event.source.type == 'user':
         uid = event.source.user_id
@@ -619,8 +677,8 @@ def handle_image_message(event):
             #gs_write('B30')
         return 0
     else:
-        content = _sys_mg.m_addmark()
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=content))  
+        #content = _sys_mg.m_addmark()
+        #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=content))  
         return 0
     
                      
